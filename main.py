@@ -25,13 +25,19 @@ for thread in threads:
 from llama_index import VectorStoreIndex
 
 # This is saved in-memory (RAM) and not persisted to disk at this time
-index = VectorStoreIndex.from_documents(documents)
+# index = VectorStoreIndex.from_documents(documents)
 
-print("ref_docs ingested: ", len(index.ref_doc_info))
+# print("ref_docs ingested: ", len(index.ref_doc_info))
 print("number of input documents: ", len(documents))
 
 thread_id = threads[0]["metadata"]["id"]
-print(index.ref_doc_info[thread_id])
+# print(index.ref_doc_info[thread_id])
 
 # We persist to disk
-index.storage_context.persist(persist_dir="./storage")
+# index.storage_context.persist(persist_dir="./storage")
+
+# We can now freely load from disk
+from llama_index import StorageContext, load_index_from_storage
+index = load_index_from_storage(StorageContext.from_defaults(persist_dir="./storage"))
+
+print('Double check ref_docs ingested: ', len(index.ref_doc_info))
